@@ -1,6 +1,6 @@
 # GenAI API with LangChain and LangGraph
 
-A simple Python API that leverages LangChain and LangGraph for creating GenAI applications.
+A simple Python API that leverages LangChain and LangGraph for creating GenAI applications with Groq's Llama3-8b-8192 model.
 
 ## Setup
 
@@ -24,7 +24,11 @@ pip install -r requirements.txt
 ```
 
 4. Configure environment:
-Edit the `.env` file and add your OpenAI API key.
+Edit the `.env` file and add your Groq API key:
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
+You can obtain a Groq API key from https://console.groq.com/keys
 
 ## Running the API
 
@@ -34,6 +38,16 @@ uvicorn main:app --reload
 ```
 
 The API will be available at http://localhost:8000.
+
+## Testing the Groq LLM
+
+To verify that your Groq LLM integration is working correctly, run the test script:
+
+```bash
+python test_groq.py
+```
+
+This script will send a test prompt to the Llama3-8b-8192 model through the Groq API and display the response.
 
 ## API Endpoints
 

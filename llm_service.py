@@ -3,6 +3,7 @@ LLM service module to handle the initialization and configuration of LLMs.
 """
 import os
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
 
 def get_llm(temperature=0.7, max_tokens=1000, model_name=None):
@@ -17,15 +18,27 @@ def get_llm(temperature=0.7, max_tokens=1000, model_name=None):
     Returns:
         A configured LLM instance
     """
-    # Get model name from environment variable or use default
+    # Get model name and provider from environment variables or use defaults
     if model_name is None:
-        model_name = os.getenv("MODEL_NAME", "gpt-4o-mini")
-    print(f"Using model hahaha: {model_name}")
-    # Initialize the OpenAI LLM
-    llm = ChatOpenAI(
-        model="gpt-4o-mini",
-        temperature=temperature,
-        max_tokens=max_tokens,
-    )
+        model_name = os.getenv("MODEL_NAME", "llama3-8b-8192")
+    
+    llm_provider = os.getenv("LLM_PROVIDER", "groq").lower()
+    
+    print(f"Using model: {model_name} from provider: {llm_provider}")
+    
+    # Initialize the LLM based on the provider
+    if llm_provider == "groq":
+        llm = ChatGroq(
+            model=model_name,  # Use llama3-8b-8192
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+    else:
+        # Fallback to OpenAI
+        llm = ChatOpenAI(
+            model='ss',
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
     
     return llm
